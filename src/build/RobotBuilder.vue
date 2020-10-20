@@ -78,6 +78,7 @@
 
 <script>
 import availableParts from "../data/parts";
+import createdHookMixin from "./created-hook-mixin"
 function getPreviousValidIndex(index, length) {
   const deprecatedIndex = index - 1;
   return deprecatedIndex < 0 ? length - 1 : deprecatedIndex;
@@ -99,6 +100,7 @@ export default {
       selectedBaseIndex: 0,
     };
   },
+  mixins: [createdHookMixin],
   computed: {
     selectedRobot() {
       return {
@@ -303,8 +305,5 @@ th {
   text-align: left;
   padding: 5px;
   padding-right: 20px;
-}
-.cost {
-  /* text-align: left; */
 }
 </style>
