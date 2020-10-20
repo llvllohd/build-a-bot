@@ -1,6 +1,7 @@
 <template>
   <div class="content">
     <div class="preview">
+      <CollapsibleSection>
       <div class="preview-content">
         <div class="top-row">
           <img :src="selectedRobot.head.src" />
@@ -14,6 +15,7 @@
           <img :src="selectedRobot.base.src" />
         </div>
       </div>
+      </CollapsibleSection>
       <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     </div>
     
@@ -76,10 +78,11 @@
 import availableParts from "../data/parts";
 import createdHookMixin from "./created-hook-mixin";
 import PartSelector from "./partSelector";
+import CollapsibleSection from "../shared/CollapsibleSection"
 
 export default {
   name: "RobotBuilder",
-  components: { PartSelector },
+  components: { PartSelector , CollapsibleSection},
   data() {
     return {
       availableParts,
