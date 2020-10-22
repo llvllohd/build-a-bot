@@ -1,7 +1,9 @@
 <template>
   <div class="content">
+    <button v-print>Print the entire page</button>
     <div class="preview">
       <CollapsibleSection>
+    
       <div class="preview-content">
         <div class="top-row">
           <img :src="selectedRobot.head.src" />
@@ -18,7 +20,7 @@
       </CollapsibleSection>
       <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     </div>
-    
+  
     <div class="top-row">
       <!-- <div class="robot-name">
           {{ selectedRobot.head.title }}
@@ -54,6 +56,7 @@
         @partSelected="(part) => (selectedRobot.base = part)"
       />
     </div>
+
     <div>
       <h1 class="title">Cart</h1>
       <table>
