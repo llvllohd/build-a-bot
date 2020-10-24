@@ -5,16 +5,18 @@ import HomePage from "../home/HomePage.vue";
 import RobotBuilder from "../build/RobotBuilder.vue";
 import PartsInfo from "../parts/PartsInfo.vue";
 import BrowseParts from "../parts/BrowseParts.vue";
-import RobotHeads from "../parts/RobotHeads.vue"
-import RobotArms from "../parts/RobotArms.vue"
-import RobotTorsos from "../parts/RobotTorsos.vue"
-import RobotBases from "../parts/RobotBases.vue"
-import SidebarStandard from '../sidebars/SidebarStandard'
-import SidebarBuild from '../sidebars/SidebarBuild'
+import RobotHeads from "../parts/RobotHeads.vue";
+import RobotArms from "../parts/RobotArms.vue";
+import RobotTorsos from "../parts/RobotTorsos.vue";
+import RobotBases from "../parts/RobotBases.vue";
+import SidebarStandard from "../sidebars/SidebarStandard";
+import SidebarBuild from "../sidebars/SidebarBuild";
+import ShoppingCart from '../cart/ShoppingCart'
 
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   routes: [
     {
       path: "/",
@@ -22,7 +24,7 @@ export default new Router({
       components: {
         default: HomePage,
         sidebar: SidebarStandard,
-      }
+      },
     },
     {
       path: "/build",
@@ -64,6 +66,15 @@ export default new Router({
       name: "Parts",
       component: PartsInfo,
       props: true,
+      beforeEnter(to, from, next) {
+        const isValidId = Number.isInteger(Number(to.params.id));
+        next(isValidId);
+      },
+    },
+    {
+      path: "/cart",
+      name: "Cart",
+      component: ShoppingCart,
     },
   ],
 });

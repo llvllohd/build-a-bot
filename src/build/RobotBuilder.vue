@@ -3,24 +3,23 @@
     <button v-print>Print the entire page</button>
     <div class="preview">
       <CollapsibleSection>
-    
-      <div class="preview-content">
-        <div class="top-row">
-          <img :src="selectedRobot.head.src" />
+        <div class="preview-content">
+          <div class="top-row">
+            <img :src="selectedRobot.head.src" />
+          </div>
+          <div class="middle-row">
+            <img :src="selectedRobot.leftArm.src" class="rotate-left" />
+            <img :src="selectedRobot.torso.src" />
+            <img :src="selectedRobot.rightArm.src" class="rotate-right" />
+          </div>
+          <div class="bottom-row">
+            <img :src="selectedRobot.base.src" />
+          </div>
         </div>
-        <div class="middle-row">
-          <img :src="selectedRobot.leftArm.src" class="rotate-left" />
-          <img :src="selectedRobot.torso.src" />
-          <img :src="selectedRobot.rightArm.src" class="rotate-right" />
-        </div>
-        <div class="bottom-row">
-          <img :src="selectedRobot.base.src" />
-        </div>
-      </div>
       </CollapsibleSection>
       <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     </div>
-  
+
     <div class="top-row">
       <!-- <div class="robot-name">
           {{ selectedRobot.head.title }}
@@ -80,14 +79,25 @@
 <script>
 import availableParts from "../data/parts";
 import createdHookMixin from "./created-hook-mixin";
-import PartSelector from "./partSelector";
-import CollapsibleSection from "../shared/CollapsibleSection"
+import PartSelector from "./PartSelector";
+import CollapsibleSection from "../shared/CollapsibleSection";
 
 export default {
   name: "RobotBuilder",
-  components: { PartSelector , CollapsibleSection},
+  beforeRouteLeave(to, from, next) {
+    if (this.addedToCart) {
+      next(true);
+    } else {
+      const response = confirm(
+        "You have not added your robot to your cart , Are you sure you want to leave ?"
+      );
+      next(response);
+    }
+  },
+  components: { PartSelector, CollapsibleSection },
   data() {
     return {
+      addedToCart: false,
       availableParts,
       cart: [],
       selectedRobot: {
@@ -110,7 +120,8 @@ export default {
         robot.torso.cost +
         robot.rightArm.cost +
         robot.base.cost;
-      this.cart.push(Object.assign({}, robot, { cost }));
+      this.$store.commit("addRobotToCart", Object.assign({}, robot, { cost }));
+      this.addedToCart = true;
     },
   },
 };
